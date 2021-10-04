@@ -7,7 +7,7 @@ BinanceExtensionCPP
 
 This library is an extension for the API of Binance. It is designed for writing trading algorithms on Binance. 
 <br />The design is delibaretly attempting to reduce execution time during runtime, by using methods such as CRTP and the `Params` object; no virtual classes/methods are used in this library.
-<br /> More performance boosting features are planned to be added in the future. One of them is `constexpr` for string concatenation after the release of C++20.
+
 # Dependencies
 
 1. [JsonCPP](https://github.com/open-source-parsers/jsoncpp) (latest version tested: **jsoncpp 1.9.3**) 
@@ -32,12 +32,15 @@ Many endpoints are divided by category into different structs inside `Client`. I
 - Mining
 - BLVT
 - BSWAP
-They should be initialized from within other Client classes, and by passing the Client object to the constructor.					
+- Fiat
+- C2C
+
+<br>They should be initialized from within other Client classes, and by passing the Client object to the constructor.					
 i.e:
  >SpotClient::Wallet my_wallet{ my_client_obj }. 
  
 ## Exchange client
-In order to initialize a client that is not public, api-key and api-secret must be passed in std::string format to the constructor.
+In order to initialize a client that is not public, api-key and api-secret must be passed in `std::string` format to the constructor.
 > FuturesClientUSDT(api_key, api_secret)
 > 
 <br />Futures and Options clients may be set in testnet mode by using the method "set_testnet_mode(bool)". SpotClient has 'test_new_order' method but no testnet mode endpoints.
@@ -178,15 +181,14 @@ If the following error is encountered: `fatal error: json/json.h: No such file o
 * `futures_user_stream.cpp` = Start a userstream for Futures account
 
 
-# Lined up
-* constexpr for endpoints + api base after the release of c++20 (constexpr support for `std::string`)
-
-**Latest `Version` update: `2021-24-05` (Binance API Changelogs have been implemented up to this date)**
-
 
 # Release Notes
-### Latest version release - 2.1
+
+### Latest version release - 2.3
 Please see release notes here https://github.com/adanikel/BinanceExtensionCPP/releases/
+
+**Latest changelog updates: `2021-27-09` (Binance API Changelogs have been implemented up to this date)**
+
 
 # Links
 * [CRTP Method - Info](https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern)

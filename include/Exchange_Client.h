@@ -89,6 +89,7 @@ public:
 
 	Json::Value test_new_order(const Params* params_ptr);
 	Json::Value new_order(const Params* params_ptr);
+    Json::Value modify_order(const Params* params_ptr);
 	Json::Value cancel_order(const Params* params_ptr);
 	Json::Value cancel_all_orders(const Params* params_ptr);
 	Json::Value query_order(const Params* params_ptr);
@@ -173,6 +174,8 @@ public:
 		Json::Value asset_dividend_records(const Params* params_ptr = nullptr);
 		Json::Value make_user_transfer_universal(const Params* params_ptr);
 		Json::Value query_user_transfer_universal(const Params* params_ptr);
+		Json::Value funding_wallet(const Params* params_ptr = nullptr);
+		Json::Value get_api_key_permission(const Params* params_ptr = nullptr);
 
 	};
 
@@ -246,6 +249,9 @@ public:
 		Json::Value get_summary_subaccount_futures(const Params* params_ptr);
 		Json::Value get_positionrisk_subaccount_futures(const Params* params_ptr);
 		Json::Value enable_leverage_token_subaccount(const Params* params_ptr);
+		Json::Value deposit_asset_subaccount(const Params* params_ptr);
+		Json::Value query_asset_subaccount(const Params* params_ptr);
+		Json::Value withdraw_asset_subaccount(const Params* params_ptr);
 
 	};
 
@@ -276,12 +282,20 @@ public:
 		Json::Value margin_account_order(const Params* params_ptr);
 		Json::Value margin_account_open_orders(const Params* params_ptr = nullptr);
 		Json::Value margin_account_all_orders(const Params* params_ptr);
+        Json::Value margin_new_oco_order(const Params* params_ptr);
+        Json::Value margin_cancel_oco_order(const Params* params_ptr);
+        Json::Value margin_query_oco_orders(const Params* params_ptr);
+        Json::Value margin_query_oco_all_orders(const Params* params_ptr);
+        Json::Value margin_query_oco_open_orders(const Params* params_ptr);
 		Json::Value margin_account_trades_list(const Params* params_ptr);
 		Json::Value margin_max_borrow(const Params* params_ptr);
 		Json::Value margin_max_transfer(const Params* params_ptr);
 		Json::Value margin_isolated_margin_transfer(const Params* params_ptr);
 		Json::Value margin_isolated_margin_transfer_history(const Params* params_ptr);
 		Json::Value margin_isolated_margin_account_info(const Params* params_ptr = nullptr);
+        Json::Value margin_isolated_margin_disable_account(const Params* params_ptr);
+        Json::Value margin_isolated_margin_enable_account(const Params* params_ptr);
+        Json::Value margin_isolated_margin_query_account_limits(const Params* params_ptr = nullptr);
 		Json::Value margin_isolated_margin_symbol(const Params* params_ptr);
 		Json::Value margin_isolated_margin_symbol_all(const Params* params_ptr = nullptr);
 		Json::Value toggle_bnb_burn(const Params* params_ptr = nullptr);
@@ -375,6 +389,30 @@ public:
 		Json::Value request_quote(const Params* params_ptr);
 		Json::Value make_swap(const Params* params_ptr);
 		Json::Value get_swap_history(const Params* params_ptr);
+		Json::Value get_pool_configure(const Params* params_ptr = nullptr);
+		Json::Value add_liquidity_preview(const Params* params_ptr);
+		Json::Value remove_liquidity_preview(const Params* params_ptr);
+	};
+
+    struct Fiat
+	{
+		const Client<T>* user_client;
+		explicit Fiat(Client<T>& client);
+		explicit Fiat(const Client<T>& client);
+		~Fiat();
+
+        Json::Value get_fiat_deposit_withdrawal_history(const Params* params_ptr);
+        Json::Value get_fiat_payments_history(const Params* params_ptr);
+	};
+
+    struct C2C
+	{
+		const Client<T>* user_client;
+		explicit C2C(Client<T>& client);
+		explicit C2C(const Client<T>& client);
+		~C2C();
+
+        Json::Value get_c2c_trades_history(const Params* params_ptr);
 	};
 
 	Json::Value custom_get_req(const std::string& base, const std::string& endpoint, const Params* params_ptr, const bool& signature = 0);
@@ -425,6 +463,7 @@ private:
 
 	Json::Value v_test_new_order(const Params* params_ptr);
 	Json::Value v_new_order(const Params* params_ptr);
+    Json::Value v_modify_order(const Params* params_ptr);
 	Json::Value v_cancel_order(const Params* params_ptr);
 	Json::Value v_cancel_all_orders(const Params* params_ptr);
 	Json::Value v_query_order(const Params* params_ptr);
@@ -453,6 +492,8 @@ public:
 	Json::Value change_position_mode(const Params* params_ptr);
 	Json::Value get_position_mode(const Params* params_ptr = nullptr);
 	Json::Value batch_orders(const Params* params_ptr);
+    Json::Value modify_batch_orders(const Params* params_ptr);
+    Json::Value modify_batch_orders_history(const Params* params_ptr);
 	Json::Value cancel_batch_orders(const Params* params_ptr);
 	Json::Value cancel_all_orders_timer(const Params* params_ptr);
 	Json::Value query_open_order(const Params* params_ptr);
@@ -580,6 +621,7 @@ private:
 	// -- mutual with spot
 
 	Json::Value v__new_order(const Params* params_ptr);
+    Json::Value v__modify_order(const Params* params_ptr);
 	Json::Value v__cancel_order(const Params* params_ptr);
 	Json::Value v__cancel_all_orders(const Params* params_ptr);
 	Json::Value v__query_order(const Params* params_ptr);
@@ -593,6 +635,8 @@ private:
 	Json::Value v_change_position_mode(const Params* params_ptr);
 	Json::Value v_get_position_mode(const Params* params_ptr);
 	Json::Value v_batch_orders(const Params* params_ptr);
+    Json::Value v_modify_batch_orders(const Params* params_ptr);
+    Json::Value v_modify_batch_orders_history(const Params* params_ptr);
 	Json::Value v_cancel_batch_orders(const Params* params_ptr);
 	Json::Value v_cancel_all_orders_timer(const Params* params_ptr);
 	Json::Value v_query_open_order(const Params* params_ptr);
@@ -702,6 +746,7 @@ private:
 	// -- mutual with spot
 
 	Json::Value v__new_order(const Params* params_ptr);
+    Json::Value v__modify_order(const Params* params_ptr);
 	Json::Value v__cancel_order(const Params* params_ptr);
 	Json::Value v__cancel_all_orders(const Params* params_ptr);
 	Json::Value v__query_order(const Params* params_ptr);
@@ -715,6 +760,8 @@ private:
 	Json::Value v_change_position_mode(const Params* params_ptr);
 	Json::Value v_get_position_mode(const Params* params_ptr);
 	Json::Value v_batch_orders(const Params* params_ptr);
+	Json::Value v_modify_batch_orders(const Params* params_ptr);
+    Json::Value v_modify_batch_orders_history(const Params* params_ptr);
 	Json::Value v_cancel_batch_orders(const Params* params_ptr);
 	Json::Value v_cancel_all_orders_timer(const Params* params_ptr);
 	Json::Value v_query_open_order(const Params* params_ptr);
@@ -809,6 +856,7 @@ private:
 
 	Json::Value v_test_new_order(const Params* params_ptr);
 	Json::Value v_new_order(const Params* params_ptr);
+    Json::Value v_modify_order(const Params* params_ptr);
 	Json::Value v_cancel_order(const Params* params_ptr);
 	Json::Value v_cancel_all_orders(const Params* params_ptr);
 	Json::Value v_query_order(const Params* params_ptr);
@@ -881,6 +929,7 @@ private:
 	Json::Value v_account_info(const Params* params_ptr = nullptr);
 	Json::Value v_test_new_order(const Params* params_ptr);
 	Json::Value v_new_order(const Params* params_ptr);
+    Json::Value v_modify_order(const Params* params_ptr);
 	Json::Value v_cancel_order(const Params* params_ptr);
 	Json::Value v_cancel_all_orders(const Params* params_ptr);
 	Json::Value v_query_order(const Params* params_ptr);
